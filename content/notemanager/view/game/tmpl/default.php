@@ -4,7 +4,7 @@ $notes = $this->notes;
 ?>
 
 <h2><?php echo $game->name; ?></h2>
-
+back to <a href="index.php">games</a><br />
 
 <table>
     <tr>
@@ -41,9 +41,15 @@ $notes = $this->notes;
                 <!-- Note body -->
                 <div>
                     
-                    <?php echo $note->body; ?>
+                    <?php echo $note->body; ?><br />
                     
-                    <br />&nbsp;<br />
+                    <?php if (!is_null($note->image)): ?>
+                    <a href="index.php?view=image&note_id=<?php echo $note->id; ?>">
+                        <img width='100' height='100' src="./content/notemanager/images/<?php echo $note->image; ?>" />
+                    </a>
+                    <?php endif; ?>
+                    
+                    <br />
                     <span class="tags">Tags: <?php echo $note->tags; ?></span>
                     
                 </div>

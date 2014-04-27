@@ -13,8 +13,7 @@
 
 <h2>Image for note <?php echo $this->note_title; ?></h2>
 
-
-for <a href="index.php?view=game&id=<?php echo $this->game_id; ?>"><?php echo $this->game_name; ?></a><br />
+back to <a href="index.php?view=game&id=<?php echo $this->game_id; ?>"><?php echo $this->game_name; ?></a><br />
 
 <!-- Form for uploading the image -->
 <form name="imageuploadform"
