@@ -33,6 +33,7 @@
     
     h2 {
         margin-left: 6%;
+        margin-bottom: 2px;
     }
     
     
@@ -121,6 +122,19 @@
         margin-right: auto;
     }
     
+    .thumbnail {
+        display: block;
+        float: top;
+        float: right;
+        margin-left: 6px;
+        
+    }
+    
+    .backlink {
+        margin-left: 7%;
+        margin-top: 2px;
+        margin-bottom: 12px;
+    }
     
     
     

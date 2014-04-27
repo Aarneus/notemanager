@@ -56,6 +56,8 @@ class SomeControllerNoteManager extends SomeController {
                     $view->note_tags = $note->tags;
                     $view->note_id = $note_id;
                 }
+                
+                $note_image = $note->image;
             
             
                 // Create a new note or update existing one if receiving data from the form
@@ -69,6 +71,7 @@ class SomeControllerNoteManager extends SomeController {
                     $note->secret = SomeRequest::getString('secret', 'off', 'post');
                     $note->secret = ($note->secret == 'on') ? 'TRUE' : 'FALSE';
                     $note->tags = SomeRequest::getString('tags', '', 'post');
+                    $note->image = $note_image;
                     
                     if (is_null($note_id)) {
                         if (!is_null($note->create())) {
@@ -114,6 +117,10 @@ class SomeControllerNoteManager extends SomeController {
                         $notes = $note->browse(array('game_id' => $id));
                         if (is_array($notes)) {
                             foreach ($notes as $row) {
+                                if (!is_null($row->image)) {
+                                    unlink("./content/notemanager/images/".$row->image);
+                                    unlink("./content/notemanager/images/thumbnails/".$row->image);
+                                }
                                 $row->delete();
                             }
                         }
@@ -159,6 +166,11 @@ class SomeControllerNoteManager extends SomeController {
                 if ($note->read()) {
                     
                     if (SomeRequest::getInt('confirm', -1) == 1) {
+                        
+                        if (!is_null($note->image)) {
+                            unlink("./content/notemanager/images/".$note->image);
+                            unlink("./content/notemanager/images/thumbnails/".$note->image);
+                        }
                         $note->delete();
                         $confirmed = true;
                     }
@@ -237,18 +249,72 @@ class SomeControllerNoteManager extends SomeController {
                             $new_name = ''.$note_id.$suffix;
                             $folder = './content/notemanager/images/';
                             
-                            // Remove previous image file
+                            // Remove previous image file and thumbnail
                             if (!is_null($note->image)) {
                                 unlink($folder.$note->image);
+                                unlink($folder.'thumbnails/'.$note->image);
                             }
                             
                             
-                            // Update database
+                            // Update database and create thumbnail
                             $note->secret = $note->secret ? 'TRUE' : 'FALSE';
                             $note->image = $new_name;
                             
                             if ($note->update()) {
                                 move_uploaded_file($file['tmp_name'], $folder.$new_name);
+                                
+                                // Thumbnail creation code from http://stackoverflow.com/questions/1855996/crop-image-in-php
+                                $image = null;
+                                switch ($image_type) {
+                                    case 1: $image = imagecreatefromgif($folder.$new_name); break;
+                                    case 2: $image = imagecreatefromjpeg($folder.$new_name); break;
+                                    case 3: $image = imagecreatefrompng($folder.$new_name); break;
+                                    default: break;
+                                }
+                                
+                                $thumb_width = 100;
+                                $thumb_height = 50;
+
+                                $width = imagesx($image);
+                                $height = imagesy($image);
+
+                                $original_aspect = $width / $height;
+                                $thumb_aspect = $thumb_width / $thumb_height;
+
+                                if ( $original_aspect >= $thumb_aspect )
+                                {
+                                   // If image is wider than thumbnail (in aspect ratio sense)
+                                   $new_height = $thumb_height;
+                                   $new_width = $width / ($height / $thumb_height);
+                                }
+                                else
+                                {
+                                   // If the thumbnail is wider than the image
+                                   $new_width = $thumb_width;
+                                   $new_height = $height / ($width / $thumb_width);
+                                }
+
+                                $thumb = imagecreatetruecolor( $thumb_width, $thumb_height );
+
+                                // Resize and crop
+                                imagecopyresampled($thumb,
+                                                   $image,
+                                                   0 - ($new_width - $thumb_width) / 2, // Center the image horizontally
+                                                   0 - ($new_height - $thumb_height) / 2, // Center the image vertically
+                                                   0, 0,
+                                                   $new_width, $new_height,
+                                                   $width, $height);
+                                
+                                switch ($image_type) {
+                                    case 1: imagegif($thumb, $folder.'/thumbnails/'.$new_name); break;
+                                    case 2: imagejpeg($thumb, $folder.'/thumbnails/'.$new_name); break;
+                                    case 3: imagepng($thumb, $folder.'/thumbnails/'.$new_name); break;
+                                    default: break;
+                                }
+
+                                 
+                                
+                                
                                 $view->image_url = $new_name;
                                 $view->notification = true;
                                 $valid = true;
@@ -257,6 +323,8 @@ class SomeControllerNoteManager extends SomeController {
                         }
                     }
                     
+                    
+                    // Invalid image file
                     if (!$valid) {
                         unlink($file['tmp_name']);
                         $view->notification = false;
