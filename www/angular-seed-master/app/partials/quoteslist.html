@@ -1,0 +1,11 @@
+<p>List of Quotes.</p>
+
+<table ng-repeat="q in quotes">
+<tr><td><a href="#/quotesread/{{q.id}}">{{q.id}}</a></td><td>{{q.thequote}}</td><td>{{q.bywhom}}</td><td>{{q.whenyear}}</td>
+<td><a href="#/quotesedit/{{q.id}}">edit</a></td></tr>
+
+</table>
+
+<p>
+  {{ 'Current version is v%VERSION%.' | interpolate }}
+</p>

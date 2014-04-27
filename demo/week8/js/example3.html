@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<script type="text/javascript">
+
+console.log("start");
+
+/**
+object literal does not have prototype property and there for constructor has nothing to create instance from
+http://stackoverflow.com/questions/3452414/adding-a-prototype-to-an-object-literal?lq=1
+ */
+
+var auto = {
+ 	carname:'bmv',
+	carcolor:'red'
+};
+
+console.log("auto /" + auto.carname + " / " + auto.carcolor);
+console.log("auto:");
+console.log(auto);
+try {
+	
+	console.log(auto.constructor);
+	console.log(auto.prototype);
+	
+	var auto2 = new auto();
+   // above throwed an exception, we do not get here!
+	auto2.carname = 'Ford';
+	auto2.carcolor = 'Green';
+	console.log("auto2/" + auto2.carname + " / " + auto2.carcolor);
+} catch (e) {
+	// auto is not constructor!
+	console.log(e);
+	
+}
+
+
+try  {
+   console.log(auto);
+} catch (e) {}
+
+
+
+////
+/// http://www.davidpirek.com/blog.aspx?n=JavaScript-Class-Constructor-vs.-Object-Literal:-Difference-in-Implementation-and-Inheritance
+/// http://www.javascriptkit.com/javatutors/proplit.shtml
+////
+
+var autoobj = {
+		carname:'mercedes', 
+		carcolor:'blue'
+};
+
+
+var auto3 = autoobj;
+auto3.carname = 'Nissan';
+auto3.carcolor = 'Black';
+
+try  {
+	   console.log(auto3);
+	   console.log("auto3 /" + autoobj.carname + " and " + auto3.carcolor);
+	} catch (e) {}
+
+	console.log("end");	
+	
+	
+</script>
+
+</body>
+</html>
