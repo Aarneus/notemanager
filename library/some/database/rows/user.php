@@ -134,5 +134,22 @@ class SomeRowUser extends SomeRow {
 	public function check() {
 		return true;
 	}
+        
+        public function readFromUsername() {
+            $sql = "SELECT * FROM ".$this->getTable(). " WHERE username='" . $this->username ."'";
+            
+            $database = SomeFactory::getDBO();
+            $statement = $database->prepare($sql);
+
+            $statement->execute();
+            
+            $row = $statement->fetch();
+            if (is_array($row)) {
+                    foreach ($row as $k => $v) {
+                            $this->$k = $v;
+                    }
+            }
+            return is_array($row);
+        }
 	
 }

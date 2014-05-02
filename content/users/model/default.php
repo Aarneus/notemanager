@@ -7,6 +7,5 @@ class SomeModelDefault extends SomeModel {
 		parent::__construct($options);
 	}
 	
-	
 
 }

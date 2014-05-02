@@ -84,6 +84,11 @@
         font-style: italic;
     }
     
+    .footer {
+        font-size: 80%;
+        font-style: italic;
+    }
+    
     .ui-accordion {
         font-family: Tahoma;
     }
@@ -149,7 +154,13 @@
         <h1>Note Manager</h1>
         
         <a href="index.php">Games</a>
-        <a href="index.php?app=users">Log in</a>
+        
+        <?php if (SomeFactory::getUser()->getUserrole() === 'guest'): ?>
+        <a href="index.php?app=users&view=login">Log in</a>
+        <?php else: ?>
+        <a href="index.php?app=users&view=account"><?php echo SomeFactory::getUser()->getUsername(); ?></a>
+        <a href="index.php?app=users&view=logout">Log out</a>
+        <?php endif; ?>
     </div>
     
     <br />
@@ -164,7 +175,7 @@
     <br />
     
     <div class="templatediv">
-        <span class="tags">(C) Aarne Uotila 2014</span>
+        <span class="footer">(C) Aarne Uotila 2014</span>
     </div>
     
     
