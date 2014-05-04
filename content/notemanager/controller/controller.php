@@ -1,6 +1,7 @@
 <?php
 someloader('some.application.controller');
 someloader('some.database.row');
+someloader('access.rbac');
 
 class SomeControllerNoteManager extends SomeController {
 
@@ -359,6 +360,14 @@ class SomeControllerNoteManager extends SomeController {
         //TODO: remove function
         public function test() {
            
+            if (RBAC::hasAccess('edit', 1)) {
+                echo "CAN READ ALL!";
+            }
+            
+            else {
+                echo "CAN'T READ!";
+            }
+                    
             
         }
 	

@@ -20,17 +20,17 @@ class SomeControllerUsers extends SomeController {
                 $email = SomeRequest::getString('email', null, 'post');
                 $homepage = SomeRequest::getString('homepage', null, 'post');
                 
-                $user = SomeFactory::getUser();
+                $user = SomeRow::getRow('user');
                 
-                $user->setId(null);
-                $user->setPassword($password);
-                $user->setUsername($username);
-                $user->setEmail($email);
-                $user->setHomepage($homepage);
-                $user->setUserrole('member');
+                $user->id = null;
+                $user->password = $password;
+                $user->username = $username;
+                $user->email = $email;
+                $user->homepage = $homepage;
+                $user->userrole = 'member';
                 $user->create();
                 
-                if ($user->getId() > 0) {
+                if ($user->id > 0) {
                     $view->notification = true;
                 }
                 
