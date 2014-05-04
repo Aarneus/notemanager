@@ -13,13 +13,22 @@ $notes = $this->notes;
         <td class="panel">
             <?php if (!is_null($notes)): ?>
             <div id="accordion">
+                
 
                 <?php foreach ($notes as $note): ?>
+                
+                
+                <?php 
+                    //Whether the user can read the secret notes 
+                    if (!$note->secret || RBAC::hasAccess('readsecret', $game->id)):
+                ?>
 
                 <!-- Note header -->
                 <h3><?php echo $note->title; ?>
                 
                 
+                    <?php if (RBAC::hasAccess('edit', $game->id)): ?>
+                    
                     <!-- Note management icons -->
                     <a href="index.php?view=deletenote&id=<?php echo $note->id; ?>">
                         <img class="icon" alt="Delete" src="./template/default/icon_delete.png" />
@@ -32,7 +41,9 @@ $notes = $this->notes;
                              state="<?php echo $note->secret ? 'hidden' : 'unhidden'; ?>"
                              src="./template/default/icon_<?php echo $note->secret ? 'hidden' : 'unhidden'; ?>.png" />
                     </a>
-                
+                    
+                    <?php endif; ?>
+                    
                 
                 
                 </h3>
@@ -51,7 +62,7 @@ $notes = $this->notes;
                         
                         <?php if (!is_null($note->image)): ?>
                         <img class="thumbnail" src="./content/notemanager/images/thumbnails/<?php echo $note->image; ?>" />
-                        <?php else: ?>
+                        <?php elseif (RBAC::hasAccess('edit', $game->id)): ?>
                         <img class="thumbnail" src="./content/notemanager/images/thumbnails/no_image.png" />
                         <?php endif; ?>
                     </a>
@@ -59,6 +70,8 @@ $notes = $this->notes;
                     
                 </div>
 
+                <?php endif; ?>
+                
                 <?php endforeach; ?>
 
 
@@ -74,9 +87,14 @@ $notes = $this->notes;
         
         <!-- Command list -->
         <td class="panel">
+            
+            <?php if (RBAC::hasAccess('edit', $game->id)): ?>
             <a href="index.php?view=editnote&id=<?php echo $game->id; ?>">Create a new note</a><br />
+            <?php endif; ?>
             <br />
+            <?php if (RBAC::hasAccess('delete', $game->id)): ?>
             <a href="index.php?view=deletegame&id=<?php echo $game->id; ?>">Delete <?php echo $game->name; ?></a><br />
+            <?php endif; ?>
         </td>
 
     </tr>

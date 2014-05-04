@@ -30,7 +30,10 @@
 
         <!-- Command menu -->
         <td class="panel">
+            
+            <?php if (RBAC::hasAccess('create')): ?>
             <a href="index.php?view=creategame">Create a new game</a><br />
+            <?php endif; ?>
         </td>
     </tr>
 </table>

@@ -39,6 +39,8 @@
         
         
         <!-- Image uploading inputs -->
+        
+        <?php if (RBAC::hasAccess('edit', $this->game_id)): ?>
         <tr>
             <td>
                 <input type="hidden" name="MAX_FILE_SIZE" value="524288" />
@@ -53,6 +55,8 @@
         <tr>
             <td>Only JPG, GIF and PNG that are smaller than 0.5 megabytes files are allowed.</td>
         </tr>
+        
+        <?php endif; ?>
         
         
     </table>
