@@ -212,6 +212,7 @@ class SomeControllerNoteManager extends SomeController {
         
 	
 	public function display() {
+            
             if (RBAC::hasAccess('read')) {
                 $view = $this->getView('games');
                 $view->display('default');
