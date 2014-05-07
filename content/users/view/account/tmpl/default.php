@@ -21,10 +21,13 @@
         
         
         <td class="panel">
+            <?php  if ($this->access_delete): ?>
             <a href="index.php?app=users&view=deleteaccount&id=<?php echo $this->user_id; ?>">Delete this account</a><br />
+            <?php endif; ?>
+            <?php if (RBAC::hasAccess('modifyaccount')): ?>
             <a href="index.php?app=users&view=modify&to=admin&id=<?php echo $this->user_id; ?>">Upgrade this account to admin</a><br />
             <a href="index.php?app=users&view=modify&to=member&id=<?php echo $this->user_id; ?>">Downgrade this account to member</a><br />
-            
+            <?php endif; ?>
             
         </td>
     </tr>

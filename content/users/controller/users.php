@@ -1,7 +1,7 @@
 <?php
 someloader('some.application.controller');
 someloader('some.database.row');
-someloader('access.rbac');
+someloader('notemanager.rbac');
 
 class SomeControllerUsers extends SomeController {
 
@@ -27,6 +27,17 @@ class SomeControllerUsers extends SomeController {
                 $user->id = $id;
                 
                 if ($user->read()) {
+                    
+                    // Show the deletion link if the user has permission to delete acoounts or is the owner of the account
+                    $access_delete = false;
+                    if (RBAC::hasAccess('deleteaccount')) {
+                        $access_delete = true;
+                    }
+                    else if (SomeFactory::getUser()->getId() == $user->id) {
+                        $access_delete = true;
+                    }
+                    $view->access_delete = $access_delete;
+                    
                     $view->user_name = $user->username;
                     $view->user_id = $user->id;
                     $view->user_email = $user->email;
@@ -79,7 +90,8 @@ class SomeControllerUsers extends SomeController {
         public function deleteaccount() {
             $id = SomeRequest::getInt('id', -1);
             
-            if (RBAC::hasAccess('deleteaccount')) {
+            
+            if (RBAC::hasAccess('deleteaccount') || SomeFactory::getUser()->getId() == $id) {
             
                 $view = $this->getView('delete');
 
@@ -92,6 +104,17 @@ class SomeControllerUsers extends SomeController {
                         $confirmed = false;
                         if (SomeRequest::getInt('confirm', -1) == 1) {
                             $user->delete();
+                            
+                            if (SomeFactory::getUser()->getId() == $user->id) {
+                                $logout = SomeFactory::getUser();
+                                $logout->setUsername('');
+                                $logout->setPassword('');
+                                $logout->setHomepage('');
+                                $logout->setEmail('');
+                                $logout->setUserrole('');
+                                $logout->setId(0);
+                            }
+                            
                             $confirmed = true;
                         }
 
@@ -112,6 +135,8 @@ class SomeControllerUsers extends SomeController {
                     $view->user_email = $user->email;
                     $view->user_homepage = $user->homepage;
                     $view->user_role = $user->userrole;
+                    $view->access_delete = true;
+                    
                 }
                 else {
                     $view = $this->getView('login');
@@ -146,8 +171,14 @@ class SomeControllerUsers extends SomeController {
                         $user = SomeFactory::getUser();
                         $user->id = $row->id;
                         $user->read();
-                        //$view = $this->getView('account');
-                        //$view->notification = true;
+                        $view = $this->getView('account');
+                        $view->notification = true;
+                        $view->access_delete = true;
+                        $view->user_name = $user->username;
+                        $view->user_id = $user->id;
+                        $view->user_email = $user->email;
+                        $view->user_homepage = $user->homepage;
+                        $view->user_role = $user->userrole;
                     }
                 }
                 
@@ -163,7 +194,7 @@ class SomeControllerUsers extends SomeController {
             $user->setPassword('');
             $user->setHomepage('');
             $user->setEmail('');
-            $user->setUserrole('guest');
+            $user->setUserrole('');
             $user->setId(0);
             
             $view = $this->getView('login');
@@ -171,6 +202,31 @@ class SomeControllerUsers extends SomeController {
             $view->display();
         }
         
+        
+        
+        
+        
+        public function modify() {
+            
+            if (RBAC::hasAccess('modifyaccount')) {
+                $id = SomeRequest::getInt('id', -1, 'get');
+                $to = SomeRequest::getString('to', '', 'get');
+                
+                if ($id != -1 && $to != '') {
+                    $user = SomeRow::getRow('user');
+                    $user->id = $id;
+                    
+                    if ($user->read()) {
+                        $user->userrole = $to;
+                        $user->update();
+                    }
+                }
+                
+                $this->account();
+                
+                
+            }
+        }
         
                 
 	

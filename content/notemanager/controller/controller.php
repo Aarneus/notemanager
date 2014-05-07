@@ -1,7 +1,7 @@
 <?php
 someloader('some.application.controller');
 someloader('some.database.row');
-someloader('access.rbac');
+someloader('notemanager.rbac');
 
 class SomeControllerNoteManager extends SomeController {
 
