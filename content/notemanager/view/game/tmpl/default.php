@@ -87,6 +87,12 @@ $notes = $this->notes;
         
         <!-- Command list -->
         <td class="panel">
+            Game Masters: 
+            <?php foreach($this->owners as $owner_id => $owner_name): ?>
+            <br /><a href="index.php?app=users&view=account&id=<?php echo $owner_id; ?>"><?php echo $owner_name; ?></a>         
+            <?php endforeach; ?>
+            
+            <br />&nbsp;<br />
             
             <?php if (RBAC::hasAccess('edit', $game->id)): ?>
             <a href="index.php?view=editnote&id=<?php echo $game->id; ?>">Create a new note</a><br />

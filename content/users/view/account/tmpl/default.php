@@ -9,6 +9,7 @@
 
 
 <h2><?php echo $this->user_name; ?></h2>
+back to <a href="index.php?app=users&view=users">User list</a><br />
 
 <table>
     <tr>
@@ -17,6 +18,20 @@
             Privileges: <?php echo $this->user_role; ?><br />
             Email: <a href="mailto:<?php echo $this->user_email; ?>"><?php echo $this->user_email; ?></a><br />
             Homepage: <a href="<?php echo $this->user_homepage; ?>"><?php echo $this->user_homepage; ?></a><br />
+            
+            <br />
+            Games:
+            <?php if (is_array($this->games)): ?>
+            
+                <?php foreach ($this->games as $game_id => $game_name): ?>
+                    <br />
+                    <a href="index.php?view=game&id=<?php echo $game_id; ?>"><?php echo $game_name; ?></a>
+                <?php endforeach; ?>
+            
+            <?php else: ?>
+                    None
+            
+            <?php endif; ?>
         </td>
         
         

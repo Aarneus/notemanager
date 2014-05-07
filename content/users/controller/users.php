@@ -103,6 +103,12 @@ class SomeControllerUsers extends SomeController {
 
                         $confirmed = false;
                         if (SomeRequest::getInt('confirm', -1) == 1) {
+                            
+                            $owners = SELECT::from('owner', array('user_id' => $user->id));
+                            foreach ($owners as $owner) {
+                                $owner->delete();
+                            }
+                            
                             $user->delete();
                             
                             if (SomeFactory::getUser()->getId() == $user->id) {
@@ -148,8 +154,15 @@ class SomeControllerUsers extends SomeController {
         
         
 	public function display() {
-            $this->login();
-	}
+            
+            if (SomeFactory::getUser()->getId() > 0) {
+                $this->users();
+            }
+            else {
+                $this->login();
+            }
+            
+        }
         
         
         public function login() {
@@ -226,6 +239,14 @@ class SomeControllerUsers extends SomeController {
                 
                 
             }
+        }
+        
+        
+        
+        
+        public function users() {
+            $view = $this->getView('users');
+            $view->display();
         }
         
                 

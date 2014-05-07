@@ -14,8 +14,15 @@ class SomeViewGame extends SomeView {
             if ($gamerow->read()) {
                 $this->game = $gamerow;
                 
-                $noterow = SomeRow::getRow('note');
                 $this->notes = SELECT::from('note', array('game_id' => $this->id));
+                
+                $owners = SELECT::from('owner', array('game_id' => $this->id));
+                foreach ($owners as $owner) {
+                    $user = SomeRow::getRow('user');
+                    $user->id = $owner->user_id;
+                    $user->read();
+                    $this->owners[$user->id] = $user->username;
+                }
                
                 parent::display($tmpl);
             }

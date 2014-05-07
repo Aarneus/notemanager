@@ -140,6 +140,12 @@ class SomeControllerNoteManager extends SomeController {
                                     $row->delete();
                                 }
                             }
+                            
+                            $owners = SELECT::from('owner', array('game_id' => $game->id));
+                            foreach ($owners as $owner) {
+                                $owner->delete();
+                            }
+                            
                             $game->delete();
 
                             $confirmed = true;
