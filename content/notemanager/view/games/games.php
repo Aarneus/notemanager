@@ -1,13 +1,13 @@
 <?php
 someloader('some.application.view');
 someloader('some.database.row');
+someloader('notemanager.browse');
 
 class SomeViewGames extends SomeView {
 
 	public function display($tmpl=null) {
             
-            $gamerow = SomeRow::getRow('game');
-            $this->games = $gamerow->browse();
+            $this->games = SELECT::from('game');
             
             parent::display($tmpl);
 	}

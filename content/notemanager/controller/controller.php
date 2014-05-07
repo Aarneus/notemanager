@@ -2,6 +2,7 @@
 someloader('some.application.controller');
 someloader('some.database.row');
 someloader('notemanager.rbac');
+someloader('notemanager.browse');
 
 class SomeControllerNoteManager extends SomeController {
 
@@ -129,7 +130,7 @@ class SomeControllerNoteManager extends SomeController {
                         $confirmed = false;
                         if (SomeRequest::getInt('confirm', -1) == 1) {
                             $note = SomeRow::getRow('note');
-                            $notes = $note->browse(array('game_id' => $id));
+                            $notes = SELECT::from('note', array('game_id' => $id));
                             if (is_array($notes)) {
                                 foreach ($notes as $row) {
                                     if (!is_null($row->image)) {

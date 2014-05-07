@@ -56,46 +56,7 @@ class SomeRow implements ISomeRow {
         
         
         
-        /**
-        * browse rows
-        * 
-        * @author Aarne Uotila
-        * @return an array of rows that fill the conditions
-        */
-        public function browse($conditions=null) {
-
-            $key = $this->getPrimary();
-            $sql = "SELECT ".$key." FROM ".$this->getTable();
-
-            if (is_array($conditions)) {
-                $sql = $sql." WHERE ";
-                foreach ($conditions as $k => $v) {
-                    $sql = $sql.$k."=".$v." AND ";
-                }
-                $sql = substr($sql, 0, strlen($sql) - 5);
-            }
-
-            $database = SomeFactory::getDBO();
-            $statement = $database->prepare($sql);
-
-            $statement->execute();
-            $this->sql = $sql;
-
-            //result as an associative array
-            $array = null;
-            do {
-                $result = $statement->fetch(PDO::FETCH_ASSOC);
-                if (is_array($result)) {
-                    $row = SomeRow::getRow($this->getTable());
-                    $row->$key = $result[$key];
-                    $row->read();
-                    $array[] = $row;
-                }
-            } while($result != false);
-
-            return $array;
-
-        }
+       
         
         
 	   

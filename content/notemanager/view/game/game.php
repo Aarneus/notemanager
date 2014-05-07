@@ -15,7 +15,7 @@ class SomeViewGame extends SomeView {
                 $this->game = $gamerow;
                 
                 $noterow = SomeRow::getRow('note');
-                $this->notes = $noterow->browse(array('game_id' => $this->id));
+                $this->notes = SELECT::from('note', array('game_id' => $this->id));
                
                 parent::display($tmpl);
             }
