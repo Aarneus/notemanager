@@ -7,7 +7,8 @@ class SomeViewGames extends SomeView {
 
 	public function display($tmpl=null) {
             
-            $this->games = SELECT::from('game');
+            $model = $this->getModel();
+            $this->games = $model->games;
             
             parent::display($tmpl);
 	}

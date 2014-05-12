@@ -1,6 +1,6 @@
 
 <!-- A message pops up when logging out -->
-<?php if (property_exists($this, 'notification')): ?>
+<?php if ($this->notification): ?>
 <div class="notification">
     Logged out!
 </div>

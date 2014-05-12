@@ -88,9 +88,13 @@ $notes = $this->notes;
         <!-- Command list -->
         <td class="panel">
             Game Masters: 
+            <?php if (is_array($this->owners)): ?>
             <?php foreach($this->owners as $owner_id => $owner_name): ?>
             <br /><a href="index.php?app=users&view=account&id=<?php echo $owner_id; ?>"><?php echo $owner_name; ?></a>         
             <?php endforeach; ?>
+            <?php else: ?>
+            None
+            <?php endif; ?>
             
             <br />&nbsp;<br />
             
@@ -121,7 +125,7 @@ $notes = $this->notes;
     $('.visibility_toggle').click(function(event) {
         var state = $(this).children('img').attr('state');
         
-        var geturl = 'index.php?app=notemanager&view=setsecret&id=' + $(this).attr('note_id');
+        var geturl = 'index.php?app=notemanager&view=setsecret&note_id=' + $(this).attr('note_id');
         geturl += "&secret=" + ((state === 'unhidden') ? 'true' : 'false');
         $.get(geturl);
         

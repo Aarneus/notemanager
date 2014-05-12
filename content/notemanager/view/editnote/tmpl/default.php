@@ -1,7 +1,7 @@
 
 
 <!-- A message pops up when created successfully -->
-<?php if (property_exists($this, 'notification')): ?>
+<?php if ($this->notification): ?>
 <div class="notification">
     Note <?php echo $this->note_title; ?> <?php echo $this->new ? 'created' : 'saved'; ?> successfully!
     

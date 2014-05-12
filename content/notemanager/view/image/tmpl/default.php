@@ -1,13 +1,9 @@
 
 
 <!-- A message pops up when created successfully -->
-<?php if (property_exists($this, 'notification')): ?>
+<?php if ($this->notification): ?>
 <div class="notification">
-    <?php if ($this->notification): ?>
-    Image updated successfully!
-    <?php else: ?>
-    Error: Image too large or not of appropriate type!
-    <?php endif; ?>
+    Image is too large or not of appropriate type!
 </div>
 <?php endif; ?>
 

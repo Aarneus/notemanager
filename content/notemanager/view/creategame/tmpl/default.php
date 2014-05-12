@@ -1,6 +1,6 @@
 
 <!-- A message pops up when created successfully -->
-<?php if (property_exists($this, 'game_id')): ?>
+<?php if ($this->notification): ?>
 <div class="notification">
     <a href="index.php?view=game&id=<?php echo $this->game_id; ?>">
         <?php echo $this->game_name; ?>
