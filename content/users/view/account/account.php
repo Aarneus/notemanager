@@ -6,13 +6,14 @@ class SomeViewAccount extends SomeView {
 
 	public function display($tmpl=null) {
             
-            $owners = SELECT::from('owner', array('user_id' => $this->user_id));
-            foreach ($owners as $owner) {
-                $game = SomeRow::getRow('game');
-                $game->id = $owner->game_id;
-                $game->read();
-                $this->games[$game->id] = $game->name;
-            }
+            $model = $this->getModel();
+            $this->access_delete = $model->access_delete;
+            $this->user_name = $model->username;
+            $this->user_id = $model->id;
+            $this->user_email = $model->email;
+            $this->user_homepage = $model->homepage;
+            $this->user_role = $model->userrole;
+            $this->games = $model->games;
             
             parent::display($tmpl);
 	}

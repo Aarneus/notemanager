@@ -7,8 +7,8 @@ class SomeViewUsers extends SomeView {
 
 	public function display($tmpl=null) {
             
-            $this->users = SELECT::from('someuser', null, 'user');
-            
+            $model = $this->getModel();
+            $this->users = $model->users;
             parent::display($tmpl);
             
 	}
