@@ -141,6 +141,12 @@
         margin-bottom: 12px;
     }
     
+    #validation_note {
+        display: none;
+        color: #c11;
+        font-style: italic;
+    }
+    
     
     
 </style>

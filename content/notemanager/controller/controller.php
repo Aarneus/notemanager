@@ -17,6 +17,7 @@ class SomeControllerNoteManager extends SomeController {
                 $view = $this->getView('creategame');
                 $model = $this->getModel('game');
                 $model->createGame();
+                $model->getGames();
                 $view->setModel($model);
                 $view->display('default');
             }
@@ -61,7 +62,10 @@ class SomeControllerNoteManager extends SomeController {
                     $view->setModel($model);
                 }
                 else {
+                    $model = $this->getModel('game');
+                    $model->getGames();
                     $view = $this->getView('games');
+                    $view->setModel($model);
                 }
                 $view->display('default');
             }
@@ -141,7 +145,6 @@ class SomeControllerNoteManager extends SomeController {
         
         
         public function setsecret() {
-            
             
             
             $id = SomeRequest::getInt('note_id', null);

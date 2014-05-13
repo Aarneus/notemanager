@@ -22,14 +22,26 @@ class SomeModelGame extends SomeModel {
     
     
     /**
-     * Creates a new game if receiving data from the form
+     * Creates a new game if receiving proper data from the form
      */
     public function createGame() {
         
         $name = SomeRequest::getString('name', '', 'post');
-        if ($name != '') {
+        
+        $already_exists = false;
+        $this->getGames();
+        foreach ($this->games as $game) {
+            if ($game->name == $name) {
+                $already_exists = true;
+                break;
+            }
+        }
+        
+        if ($name != '' && !$already_exists) {
             $game = SomeRow::getRow('game');
             $game->name = $name;
+            
+            
             if (!is_null($game->create())) {
                 $this->id = $game->id;
                 $this->name = $game->name;

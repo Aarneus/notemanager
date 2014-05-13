@@ -10,6 +10,7 @@ class SomeViewCreateGame extends SomeView {
             $this->game_id = $model->id;
             $this->game_name = $model->name;
             $this->notification = $model->notification;
+            $this->games = $model->games;
             
             parent::display($tmpl);
             
