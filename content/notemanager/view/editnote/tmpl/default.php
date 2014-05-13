@@ -53,7 +53,7 @@
         </tr>
         
         <tr>
-            <td>Tags:</td><td><input class="field "type="text" name="tags"
+            <td>Tags:</td><td><input id="selectize" class="field" type="text" name="tags"
                                      value="<?php if (!$this->new) { echo $this->note_tags; } ?>" /></td>
         </tr>
         
@@ -70,7 +70,7 @@
 
 
 <script type="text/javascript">
-    //TinyMCE callback content loading taken from: https://stackoverflow.com/questions/16508001/how-to-set-tinymce-default-content
+    // TinyMCE callback content loading taken from: https://stackoverflow.com/questions/16508001/how-to-set-tinymce-default-content
     tinymce.init({
         selector: "#wysiwyg",
         width: 512,
@@ -82,6 +82,18 @@
         inst.setContent('<?php echo $this->note_body; ?>');
         <?php endif; ?>
     }
+    
+    
+    // Selectize.js for the tags
+    $("#selectize").selectize({
+        delimiter: ',',
+        persist: false,
+        create: function(input) {
+        return {
+            value: input,
+            text: input
+        }}
+    });
     
     
     // Validate the form input before submitting it

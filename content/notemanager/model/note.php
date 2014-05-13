@@ -69,6 +69,7 @@ class SomeModelNote extends SomeModel {
                 $note->secret = SomeRequest::getString('secret', 'off', 'post');
                 $note->secret = ($note->secret == 'on') ? 'TRUE' : 'FALSE';
                 $note->tags = SomeRequest::getString('tags', '', 'post');
+                $note->tags = str_replace(',', ', ', $note->tags);
                 $note->image = $note_image;
 
                 if (is_null($note_id)) {
