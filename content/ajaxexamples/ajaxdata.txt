@@ -1,2 +1,0 @@
-28 February, 2012.
-{"Month": "February", "Year":"2012", "Day":"28"}
