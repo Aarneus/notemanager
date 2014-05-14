@@ -166,19 +166,5 @@ class SomeControllerNoteManager extends SomeController {
         
         
         
-        
-        //TODO: remove function
-        public function test() {
-           
-            if (RBAC::hasAccess('edit', 1)) {
-                echo "CAN READ ALL!";
-            }
-            
-            else {
-                echo "CAN'T READ!";
-            }
-                    
-            
-        }
 	
 }

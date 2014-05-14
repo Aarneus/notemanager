@@ -45,6 +45,13 @@ class SomeModelAccount extends SomeModel {
             $user->email = $email;
             $user->homepage = $homepage;
             $user->userrole = 'member';
+            
+            // First created user becomes Admin automatically
+            $this->getUsers();
+            if (!is_array($this->users)) {
+                $user->userrole = 'admin';
+            }
+            
             $user->create();
 
             if ($user->id > 0) {
