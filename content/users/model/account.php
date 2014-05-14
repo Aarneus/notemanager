@@ -175,6 +175,7 @@ class SomeModelAccount extends SomeModel {
                     $user = SomeFactory::getUser();
                     $user->id = $row->id;
                     $user->read();
+                    $this->notification = true;
                     
                     return true;
                 }

@@ -68,7 +68,10 @@ class SomeControllerUsers extends SomeController {
                     
                 }
                 else {
+                    $model = $this->getModel('account');
+                    $model->notification = false;
                     $view = $this->getView('login');
+                    $view->setModel($model);
                 }
                 $view->display('default');
             }
@@ -99,6 +102,7 @@ class SomeControllerUsers extends SomeController {
                 $view = $this->getView('account');
                 $model = $this->getModel('account');
                 $model->getAccountData(SomeFactory::getUser()->getId());
+                $model->notification = true;
                 $view->setModel($model);
             }
             

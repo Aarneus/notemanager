@@ -2,33 +2,33 @@
 <!-- A message pops up when created successfully -->
 <?php if ($this->notification): ?>
 <div class="notification">
-    Account created!
+    <?php echo SomeText::_('ACCOUNT CREATED'); ?>
     
 </div>
 <?php endif; ?>
 
-<h2>Create a new account</h2>
+<h2><?php echo SomeText::_('CREATE NEW ACCOUNT'); ?></h2>
 
 
 <form name="accountform" action="index.php?app=users&view=createaccount" method="post">
     <table class="note_editor">
         <tr>
-            <td>User name:</td>
+            <td><?php echo SomeText::_('USERNAME'); ?>:</td>
             <td><input class="field" type="text" name="username" /></td>
         </tr>
         
         <tr>
-            <td>Password:</td>
+            <td><?php echo SomeText::_('PASSWORD'); ?>:</td>
             <td><input class="field" type="password" name="password" /></td>
         </tr>
         
         <tr>
-            <td>Email:</td>
+            <td><?php echo SomeText::_('EMAIL'); ?>:</td>
             <td><input class="field" type="text" name="email" /></td>
         </tr>
         
         <tr>
-            <td>Homepage:</td>
+            <td><?php echo SomeText::_('HOMEPAGE'); ?>:</td>
             <td><input class="field" type="text" name="homepage" /></td>
         </tr>
         

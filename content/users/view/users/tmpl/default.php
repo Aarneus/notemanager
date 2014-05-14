@@ -1,6 +1,6 @@
 
 
-<h2>Users</h2>
+<h2><?php echo SomeText::_('USERS'); ?></h2>
 
 <?php foreach ($this->users as $user): ?>
 

@@ -4,14 +4,14 @@
     
     <?php //A confirmation dialog ?>
     <?php if ($this->delete_confirmed == false): ?>
-    Deleting the account <?php echo $this->user_name; ?>. 
+    <?php echo SomeText::sprintf('DELETING ACCOUNT', $this->user_name); ?>
     <br />
-    <a href="index.php?app=users&view=deleteaccount&id=<?php echo $this->user_id; ?>&confirm=1">OK</a>
-    <a href="index.php?app=users&view=account&id=<?php echo $this->user_id; ?>">Cancel</a>
+    <a href="index.php?app=users&view=deleteaccount&id=<?php echo $this->user_id; ?>&confirm=1"><?php echo SomeText::_('OK'); ?></a>
+    <a href="index.php?app=users&view=account&id=<?php echo $this->user_id; ?>"><?php echo SomeText::_('CANCEL'); ?></a>
     
     <?php //Deletion message ?>
     <?php else: ?>
-    <?php echo $this->user_name; ?> deleted successfully.
+    <?php echo SomeText::sprintf('ACCOUNT DELETED', $this->user_name); ?>
     <?php endif; ?>
     
     
