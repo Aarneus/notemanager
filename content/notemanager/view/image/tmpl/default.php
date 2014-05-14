@@ -14,7 +14,7 @@
 <!-- Form for uploading the image -->
 <form name="imageuploadform"
       enctype="multipart/form-data"
-      action="index.php?app=notemanager&view=image&note_id=<?php echo $this->note_id; ?>" 
+      action="index.php?app=notemanager&view=image&note_id=<?php echo $this->note_id; ?>&token=<?php echo CSRF::getToken(); ?>" 
       method="post">
     
     <table class="note_editor">

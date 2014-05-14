@@ -30,10 +30,10 @@ $notes = $this->notes;
                     <?php if (RBAC::hasAccess('edit', $game->id)): ?>
                     
                     <!-- Note management icons -->
-                    <a href="index.php?view=deletenote&id=<?php echo $note->id; ?>">
+                    <a href="index.php?view=deletenote&id=<?php echo $note->id; ?>&token=<?php echo CSRF::getToken(); ?>">
                         <img class="icon" alt="Delete" src="./template/default/icon_delete.png" />
                     </a>
-                    <a href="index.php?view=editnote&id=<?php echo $note->game_id; ?>&note_id=<?php echo $note->id; ?>">
+                    <a href="index.php?view=editnote&id=<?php echo $note->game_id; ?>&note_id=<?php echo $note->id; ?>&token=<?php echo CSRF::getToken(); ?>">
                         <img class="icon" alt="Edit" src="./template/default/icon_edit.png" />
                     </a>
                     <a href="#" class="visibility_toggle" note_id="<?php echo $note->id; ?>">
@@ -58,7 +58,7 @@ $notes = $this->notes;
                     &nbsp;
                     <br />
                     
-                    <a href="index.php?view=image&note_id=<?php echo $note->id; ?>">
+                    <a href="index.php?view=image&note_id=<?php echo $note->id; ?>&token=<?php echo CSRF::getToken(); ?>">
                         
                         <?php if (!is_null($note->image)): ?>
                         <img class="thumbnail" src="./content/notemanager/images/thumbnails/<?php echo $note->image; ?>" />
@@ -99,11 +99,11 @@ $notes = $this->notes;
             <br />&nbsp;<br />
             
             <?php if (RBAC::hasAccess('edit', $game->id)): ?>
-            <a href="index.php?view=editnote&id=<?php echo $game->id; ?>">Create a new note</a><br />
+            <a href="index.php?view=editnote&id=<?php echo $game->id; ?>&token=<?php echo CSRF::getToken(); ?>">Create a new note</a><br />
             <?php endif; ?>
             <br />
             <?php if (RBAC::hasAccess('delete', $game->id)): ?>
-            <a href="index.php?view=deletegame&id=<?php echo $game->id; ?>">Delete <?php echo $game->name; ?></a><br />
+            <a href="index.php?view=deletegame&id=<?php echo $game->id; ?>&token=<?php echo CSRF::getToken(); ?>">Delete <?php echo $game->name; ?></a><br />
             <?php endif; ?>
         </td>
 
@@ -125,7 +125,7 @@ $notes = $this->notes;
     $('.visibility_toggle').click(function(event) {
         var state = $(this).children('img').attr('state');
         
-        var geturl = 'index.php?app=notemanager&view=setsecret&note_id=' + $(this).attr('note_id');
+        var geturl = 'index.php?app=notemanager&view=setsecret&note_id=' + $(this).attr('note_id') + '&token=<?php echo CSRF::getToken(); ?>';
         geturl += "&secret=" + ((state === 'unhidden') ? 'true' : 'false');
         $.get(geturl);
         

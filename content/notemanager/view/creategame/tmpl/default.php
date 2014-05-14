@@ -14,7 +14,7 @@
 
 
 <!-- Form for creating a new game -->
-<form id="newgameform" action="index.php?app=notemanager&view=creategame" method="post">
+<form id="newgameform" action="index.php?app=notemanager&view=creategame&token=<?php echo CSRF::getToken(); ?>" method="post">
     <table>
         <tr>
             <td colspan="2">

@@ -1,5 +1,6 @@
 <?php
 someloader('some.application.model');
+someloader('notemanager.csrf');
 
 class SomeModelGame extends SomeModel {
 
@@ -26,31 +27,34 @@ class SomeModelGame extends SomeModel {
      */
     public function createGame() {
         
-        $name = SomeRequest::getString('name', '', 'post');
-        
-        $already_exists = false;
-        $this->getGames();
-        foreach ($this->games as $game) {
-            if ($game->name == $name) {
-                $already_exists = true;
-                break;
+        if (CSRF::checkToken()) {
+
+            $name = SomeRequest::getString('name', '', 'post');
+
+            $already_exists = false;
+            $this->getGames();
+            foreach ($this->games as $game) {
+                if ($game->name == $name) {
+                    $already_exists = true;
+                    break;
+                }
             }
-        }
-        
-        if ($name != '' && !$already_exists) {
-            $game = SomeRow::getRow('game');
-            $game->name = $name;
-            
-            
-            if (!is_null($game->create())) {
-                $this->id = $game->id;
-                $this->name = $game->name;
-                $this->notification = true;
-                
-                $owner = SomeRow::getRow('owner');
-                $owner->game_id = $game->id;
-                $owner->user_id = SomeFactory::getUser()->getId();
-                $owner->create();
+
+            if ($name != '' && !$already_exists) {
+                $game = SomeRow::getRow('game');
+                $game->name = $name;
+
+
+                if (!is_null($game->create())) {
+                    $this->id = $game->id;
+                    $this->name = $game->name;
+                    $this->notification = true;
+
+                    $owner = SomeRow::getRow('owner');
+                    $owner->game_id = $game->id;
+                    $owner->user_id = SomeFactory::getUser()->getId();
+                    $owner->create();
+                }
             }
         }
     }
@@ -61,46 +65,48 @@ class SomeModelGame extends SomeModel {
      * Deletes the game if the id is specified
      */
     public function deleteGame($id) {
-        
-        if ($id != -1) {
-            $game = SomeRow::getRow('game');
-            $game->id = $id;
-            if ($game->read()) {
+        if (CSRF::checkToken()) {
+            
+            if ($id != -1) {
+                $game = SomeRow::getRow('game');
+                $game->id = $id;
+                if ($game->read()) {
 
-                $confirmed = false;
-                if (SomeRequest::getInt('confirm', -1) == 1) {
-                    $note = SomeRow::getRow('note');
-                    $notes = SELECT::from('note', array('game_id' => $id));
-                    if (is_array($notes)) {
-                        foreach ($notes as $row) {
-                            if (!is_null($row->image)) {
-                                unlink("./content/notemanager/images/".$row->image);
-                                unlink("./content/notemanager/images/thumbnails/".$row->image);
+                    $confirmed = false;
+                    if (SomeRequest::getInt('confirm', -1) == 1) {
+                        $note = SomeRow::getRow('note');
+                        $notes = SELECT::from('note', array('game_id' => $id));
+                        if (is_array($notes)) {
+                            foreach ($notes as $row) {
+                                if (!is_null($row->image)) {
+                                    unlink("./content/notemanager/images/".$row->image);
+                                    unlink("./content/notemanager/images/thumbnails/".$row->image);
+                                }
+                                $row->delete();
                             }
-                            $row->delete();
                         }
+
+                        $owners = SELECT::from('owner', array('game_id' => $game->id));
+                        foreach ($owners as $owner) {
+                            $owner->delete();
+                        }
+
+                        $game->delete();
+
+                        $confirmed = true;
                     }
 
-                    $owners = SELECT::from('owner', array('game_id' => $game->id));
-                    foreach ($owners as $owner) {
-                        $owner->delete();
-                    }
 
-                    $game->delete();
-
-                    $confirmed = true;
                 }
-
-
             }
-        }
 
-        // The view contains the notification and confirmation window, the page below those is displayed separately
-        $this->id = $game->id;
-        $this->name = $game->name;
-        $this->delete_confirmed = $confirmed;
-        
-        return $confirmed;
+            // The view contains the notification and confirmation window, the page below those is displayed separately
+            $this->id = $game->id;
+            $this->name = $game->name;
+            $this->delete_confirmed = $confirmed;
+
+            return $confirmed;
+        }
     }
     
     

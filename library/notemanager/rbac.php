@@ -1,7 +1,9 @@
 <?php
 
 
-
+/**
+ * Class that handles Role-Based Access Control for the NoteManager app
+ */
 class RBAC {
     
     

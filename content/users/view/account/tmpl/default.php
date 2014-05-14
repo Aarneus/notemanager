@@ -37,11 +37,11 @@
         
         <td class="panel">
             <?php  if ($this->access_delete): ?>
-            <a href="index.php?app=users&view=deleteaccount&id=<?php echo $this->user_id; ?>"><?php echo SomeText::_('DELETE ACCOUNT'); ?></a><br />
+            <a href="index.php?app=users&view=deleteaccount&id=<?php echo $this->user_id; ?>&token=<?php echo CSRF::getToken(); ?>"><?php echo SomeText::_('DELETE ACCOUNT'); ?></a><br />
             <?php endif; ?>
             <?php if (RBAC::hasAccess('modifyaccount')): ?>
-            <a href="index.php?app=users&view=modify&to=admin&id=<?php echo $this->user_id; ?>"><?php echo SomeText::_('UPGRADE TO ADMIN'); ?></a><br />
-            <a href="index.php?app=users&view=modify&to=member&id=<?php echo $this->user_id; ?>"><?php echo SomeText::_('DOWNGRADE TO MEMBER'); ?></a><br />
+            <a href="index.php?app=users&view=modify&to=admin&id=<?php echo $this->user_id; ?>&token=<?php echo CSRF::getToken(); ?>"><?php echo SomeText::_('UPGRADE TO ADMIN'); ?></a><br />
+            <a href="index.php?app=users&view=modify&to=member&id=<?php echo $this->user_id; ?>&token=<?php echo CSRF::getToken(); ?>"><?php echo SomeText::_('DOWNGRADE TO MEMBER'); ?></a><br />
             <?php endif; ?>
             
         </td>

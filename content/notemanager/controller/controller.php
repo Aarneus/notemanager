@@ -136,6 +136,7 @@ class SomeControllerNoteManager extends SomeController {
             
             if (RBAC::hasAccess('edit', $model->game_id)) {
                 $model->loadImage($model->id);
+                $model->getNoteData();
             }
                 
             if (RBAC::hasAccess('read', $model->game_id)) {
@@ -166,5 +167,6 @@ class SomeControllerNoteManager extends SomeController {
         
         
         
+        
 	
-}
+} 

@@ -1,7 +1,9 @@
 <?php
 
 
-
+/**
+ * A helper class for database queries
+ */
 class SELECT {
     
     

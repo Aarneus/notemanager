@@ -25,7 +25,7 @@
           echo '&note_id=';
           echo $this->note_id;
       }
-      ?>" 
+      ?>&token=<?php echo CSRF::getToken(); ?>" 
       method="post">
     <table class="note_editor">
         

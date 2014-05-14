@@ -1,6 +1,7 @@
 <?php
 someloader('some.application.model');
 someloader('notemanager.browse');
+someloader('notemanager.csrf');
 
 class SomeModelAccount extends SomeModel {
     
@@ -29,7 +30,7 @@ class SomeModelAccount extends SomeModel {
      * Creates a new account according to data received from the form
      */
     public function createAccount() {
-         $username = SomeRequest::getString('username', '', 'post');
+        $username = SomeRequest::getString('username', '', 'post');
 
         // Handle received data from form
         if ($username != '') {
@@ -45,19 +46,18 @@ class SomeModelAccount extends SomeModel {
             $user->email = $email;
             $user->homepage = $homepage;
             $user->userrole = 'member';
-            
+
             // First created user becomes Admin automatically
             $this->getUsers();
             if (!is_array($this->users)) {
                 $user->userrole = 'admin';
             }
-            
+
             $user->create();
 
             if ($user->id > 0) {
                 $this->notification = true;
             }
-
         }
     }
     
@@ -69,7 +69,7 @@ class SomeModelAccount extends SomeModel {
      */
     public function deleteAccount($id) {
         
-        if ($id != -1) {
+        if ($id != -1 && CSRF::checkToken()) {
             $user = SomeRow::getRow('user');
             $user->id = $id;
             if ($user->read()) {
@@ -183,6 +183,7 @@ class SomeModelAccount extends SomeModel {
                     $user->id = $row->id;
                     $user->read();
                     $this->notification = true;
+                    CSRF::generateToken();
                     
                     return true;
                 }
@@ -204,6 +205,7 @@ class SomeModelAccount extends SomeModel {
             $user->setEmail('');
             $user->setUserrole('');
             $user->setId(0);
+            CSRF::removeToken();
     }
     
     
@@ -211,16 +213,18 @@ class SomeModelAccount extends SomeModel {
      * Modifies the current user role of the specified user (usually from admin to member or vice versa
      */
     public function modify() {
-        $id = SomeRequest::getInt('id', -1, 'get');
-        $to = SomeRequest::getString('to', '', 'get');
+        if (CSRF::checkToken()) {
+            $id = SomeRequest::getInt('id', -1, 'get');
+            $to = SomeRequest::getString('to', '', 'get');
 
-        if ($id != -1 && $to != '') {
-            $user = SomeRow::getRow('user');
-            $user->id = $id;
+            if ($id != -1 && $to != '') {
+                $user = SomeRow::getRow('user');
+                $user->id = $id;
 
-            if ($user->read()) {
-                $user->userrole = $to;
-                $user->update();
+                if ($user->read()) {
+                    $user->userrole = $to;
+                    $user->update();
+                }
             }
         }
     }
