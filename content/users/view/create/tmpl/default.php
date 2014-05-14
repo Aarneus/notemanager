@@ -1,6 +1,6 @@
 
 <!-- A message pops up when created successfully -->
-<?php if (property_exists($this, 'notification')): ?>
+<?php if ($this->notification): ?>
 <div class="notification">
     Account created!
     
