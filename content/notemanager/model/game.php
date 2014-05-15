@@ -33,10 +33,12 @@ class SomeModelGame extends SomeModel {
 
             $already_exists = false;
             $this->getGames();
-            foreach ($this->games as $game) {
-                if ($game->name == $name) {
-                    $already_exists = true;
-                    break;
+            if (is_array($this->games)) {
+                foreach ($this->games as $game) {
+                    if ($game->name == $name) {
+                        $already_exists = true;
+                        break;
+                    }
                 }
             }
 

@@ -74,13 +74,13 @@
     tinymce.init({
         selector: "#wysiwyg",
         width: 512,
+        force_p_newlines : false,
         init_instance_callback: set_contents
+        
      });
 
     function set_contents(inst) {
-        <?php if (!$this->new): ?>
         inst.setContent('<?php echo $this->note_body; ?>');
-        <?php endif; ?>
     }
     
     

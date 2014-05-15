@@ -32,7 +32,6 @@ class SomeModelNote extends SomeModel {
     public function editNote() {
         if (CSRF::checkToken())  {
             
-
             $game = SomeRow::getRow('game');
             $game->id = SomeRequest::getInt('id', '');
 

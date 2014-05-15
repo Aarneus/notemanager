@@ -26,7 +26,7 @@
         <!-- Main menu -->
         <a href="index.php">Games</a>
         &nbsp;
-        <a href="index.php?app=users">Users</a>
+        <a href="index.php?app=users&view=users">Users</a>
         &nbsp;
         <?php if (SomeFactory::getUser()->getUserrole() === 'guest'): ?>
         <a href="index.php?app=users&view=login">Log in</a>
